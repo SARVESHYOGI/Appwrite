@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import './App.css'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import authService from './appwrite/auth'
-import { login, logout } from "./store/authslice";
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-
+import './App.css'
+import authService from "./appwrite/auth"
+import { login, logout } from "./store/authSlice"
+import { Footer, Header } from './components'
+import { Outlet } from 'react-router-dom'
 
 function App() {
-
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
 
@@ -20,27 +18,21 @@ function App() {
         } else {
           dispatch(logout())
         }
-        setLoading(false)
       })
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) {
-    return <div>Loading...</div>
-  } else {
-    return (
-
-      <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-        <div>
-          <Header />
-          <main>
-            {/* TODO: <>outlet</> */}
-          </main>
-          <Footer />
-        </div>
+  return !loading ? (
+    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
+      <div className='w-full block'>
+        <Header />
+        <main>
+          TODO:  <Outlet />
+        </main>
+        <Footer />
       </div>
-    )
-  }
+    </div>
+  ) : null
 }
 
 export default App
